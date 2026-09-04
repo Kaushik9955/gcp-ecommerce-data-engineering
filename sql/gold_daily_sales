@@ -1,0 +1,16 @@
+CREATE OR REPLACE TABLE
+  `gcp-ecommerce-de-2026.ecommerce_gold.daily_sales` AS
+SELECT
+  order_date,
+  COUNT(DISTINCT order_id) AS total_orders,
+  SUM(quantity) AS total_items,
+  SUM(total_amount) AS revenue,
+  AVG(total_amount) AS average_order_value
+FROM
+  `gcp-ecommerce-de-2026.ecommerce_silver.orders_clean`
+WHERE
+  order_status = 'Completed'
+GROUP BY
+  order_date
+ORDER BY
+  order_date;
